@@ -1,11 +1,12 @@
 <script setup>
 import Input from './ui-kit/Input.vue';
 import Select from './ui-kit/Select.vue';
-import axios from 'axios';
-// import Button from './ui-kit/Button.vue';
+import { useStore } from 'vuex'
 import { computed, ref } from 'vue';
-// import { useRouter, useRoute } from 'vue-router';
-// const router = useRouter();
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const store = useStore();
 
 const name = ref('');
 const view = ref('');
@@ -13,22 +14,15 @@ const selectedStatus = ref('');
 const selectedGender = ref('');
 const status = ref(['Alive', 'Dead', 'unknown']);
 const gender = ref(['Female', 'Male', 'Genderless', 'unknown']);
-const url = computed(() => {
-  return `https://rickandmortyapi.com/api/character/?name=${name.value}&status=${selectedStatus.value}&species=${view.value}&gender=${selectedGender.value}`;
-});
 
-async function searchChar() {
-  // console.log(url.value);
-  // console.log(this.$router);
-  try {
-    const response = await axios.get(url.value);
-    const result = response.data.results;
-    console.log(response.data.results);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    // this.$router.push('/info');
-  }
+function searchChars() {
+  const resp = store.dispatch('searchChars', { 
+    name: name.value, 
+    view: view.value, 
+    status: selectedStatus.value, 
+    gender: selectedGender.value 
+  })
+  router.push('/chars');
 }
 </script>
 
@@ -41,9 +35,9 @@ async function searchChar() {
       <Input v-model="name" placeholder="Имя персонажа" />
       <Select v-model="selectedStatus" :options="status" text="Статус"></Select>
       <Input v-model="view" placeholder="Вид" />
-      <Select v-model="selectedGender" :options="gender" text="Гендер"></Select>
+      <Select v-model="selectedGender" :options="gender" text="Пол"></Select>
     </form>
-    <button @click="searchChar" class="search-block__button" text="Поиск">Найти</button>
+    <button @click="searchChars" class="search-block__button" text="Поиск">Найти</button>
   </div>
 </template>
 
@@ -54,6 +48,7 @@ async function searchChar() {
   gap: 20px;
   width: fit-content;
   padding: 20px;
+  margin: 0 auto;
   background-color: white;
   border-radius: 10px;
   background-color: aquamarine;

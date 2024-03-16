@@ -1,8 +1,6 @@
 <script setup>
 import SearchBlock from './components/SearchBlock.vue';
 import { RouterView } from 'vue-router';
-// import Home from './views/Home.vue';
-// import Info from './views/Info.vue';
 </script>
 
 <template>
@@ -12,8 +10,6 @@ import { RouterView } from 'vue-router';
       <SearchBlock />
     </div>
     <RouterView />
-    <!-- <router-view></router-view> -->
-    <!-- <Info /> -->
   </div>
 </template>
 

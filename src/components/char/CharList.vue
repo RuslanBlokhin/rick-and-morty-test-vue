@@ -1,21 +1,33 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex'
+import CharItem from "./CharItem.vue"
 
-defineProps({
-  msg: String,
-});
+const store = useStore()
 
-const count = ref(0);
+const findedChars = computed(() => store.getters.getFindedChars);
+onMounted(() => {
+  console.log(findedChars.value);
+})
+
 </script>
 
 <template>
-  <ul class="char-list"></ul>
+  <ul class="char-list">
+      <CharItem v-for="char in findedChars" :char="char" :key="char.id"/>
+  </ul>
 </template>
 
 <style>
 .char-list {
-  margin-top: 20px;
-  height: 1000px;
-  background-color: beige;
+  position: relative;
+  margin: 30px 0 auto;
+  /* width: 70%; */
+  display: grid;
+  grid-template-columns: repeat(2, 40%);
+  align-content: center;
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
 }
 </style>
