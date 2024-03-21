@@ -8,13 +8,14 @@ defineEmits(['update:modelValue']);
 
 <template>
   <select @change="$emit('update:modelValue', $event.target.value)" class="select">
-    <option class="select__option" selected disabled :value="text">{{ text }}</option>
+    <option class="select__option" :value="text" selected disabled hidden>{{ text }}</option>
     <option class="select__option" v-for="option in options" :value="option">{{ option }}</option>
   </select>
 </template>
 
 <style>
 .select {
+  width: 100px;
   height: 40px;
   padding: 6px;
   border: none;

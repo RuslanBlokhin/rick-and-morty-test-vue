@@ -1,65 +1,81 @@
 <script setup>
-import Input from './ui-kit/Input.vue';
-import Select from './ui-kit/Select.vue';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Input from './ui-kit/Input.vue';
+import Select from './ui-kit/Select.vue';
 
 const router = useRouter();
 const store = useStore();
 
 const name = ref('');
 const view = ref('');
+const error = ref(false)
 const selectedStatus = ref('');
 const selectedGender = ref('');
 const status = ref(['Alive', 'Dead', 'unknown']);
 const gender = ref(['Female', 'Male', 'Genderless', 'unknown']);
 
 function searchChars() {
-  const resp = store.dispatch('searchChars', { 
+  store.dispatch('searchChars', { 
     name: name.value, 
     view: view.value, 
     status: selectedStatus.value, 
     gender: selectedGender.value 
-  })
-  router.push('/chars');
+  }).then(resp => {
+    if(resp.error === null) {
+      error.value = false;
+      router.push('/chars');
+    } else {
+      error.value = true;
+    }
+  });
 }
 </script>
 
 <template>
-  <div class="logo">
-    <img src="../assets/logo.webp" />
-  </div>
   <div class="search-block">
-    <form class="search-block__form">
-      <Input v-model="name" placeholder="Имя персонажа" />
-      <Select v-model="selectedStatus" :options="status" text="Статус"></Select>
-      <Input v-model="view" placeholder="Вид" />
-      <Select v-model="selectedGender" :options="gender" text="Пол"></Select>
-    </form>
-    <button @click="searchChars" class="search-block__button" text="Поиск">Найти</button>
+    <div class="search-block__wrapper">
+      <form class="search-block__form">
+        <Input v-model="name" placeholder="Имя персонажа" />
+        <Select v-model="selectedStatus" :options="status" text="Статус"></Select>
+        <Input v-model="view" placeholder="Вид" />
+        <Select v-model="selectedGender" :options="gender" text="Пол"></Select>
+        <button 
+          @click="searchChars" 
+          @keyup.enter="searchChars" 
+          class="search-block__button" 
+          text="Поиск">
+            Найти
+        </button>
+      </form>
+    </div>
+    <div v-if="error" class="search-block__notfound-message">
+      По данному запросу ничего не найдено, попробуйте ввести другие параметры поиска
+    </div>
   </div>
 </template>
 
 <style>
-.search-block {
+/* .search-block {
   display: flex;
   align-items: center;
-  gap: 20px;
-  width: fit-content;
-  padding: 20px;
+  justify-content: center;
+} */
+.search-block__wrapper {
+  padding: 15px;
   margin: 0 auto;
-  background-color: white;
   border-radius: 10px;
   background-color: aquamarine;
 }
 .search-block__form {
   display: flex;
   align-items: center;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.logo {
-  width: 500px;
-  margin: 0 auto;
+.search-block__notfound-message {
+  margin-top: 20px;
+  color:rgb(247, 247, 247);
 }
 </style>

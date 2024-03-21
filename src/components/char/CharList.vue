@@ -7,13 +7,13 @@ const store = useStore()
 
 const findedChars = computed(() => store.getters.getFindedChars);
 onMounted(() => {
-  console.log(findedChars.value);
+  // console.log(findedChars.value);
 })
 
 </script>
 
 <template>
-  <ul class="char-list">
+  <ul v-if="findedChars.length" class="char-list">
       <CharItem v-for="char in findedChars" :char="char" :key="char.id"/>
   </ul>
 </template>
@@ -21,13 +21,21 @@ onMounted(() => {
 <style>
 .char-list {
   position: relative;
-  margin: 30px 0 auto;
-  /* width: 70%; */
+  margin: 20px auto 0;
+  max-width: 500px;
   display: grid;
-  grid-template-columns: repeat(2, 40%);
-  align-content: center;
+  grid-template-columns: repeat(1, 100%);
   justify-content: center;
   column-gap: 20px;
   row-gap: 20px;
+}
+@media screen and (min-width: 768px) {
+  .char-list {
+    max-width: 960px;
+    grid-template-columns: repeat(2, 49%);
+    justify-content: center;
+    column-gap: 20px;
+    row-gap: 20px;
+  } 
 }
 </style>

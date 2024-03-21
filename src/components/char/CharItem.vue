@@ -1,28 +1,45 @@
 <script setup>
+import { useStore } from 'vuex';
+const store = useStore();
+
 const props = defineProps({
   char: Object,
 })
-console.log(props.char);
+
+function openCharDetails(e) {
+    const currentID = e.currentTarget.id;
+    store.dispatch('getCharDetails', currentID).then(resp => {
+        if(resp.error !== null) {
+            alert('Что-то пошло не так...')
+        }
+    });
+}
 </script>
 
 <template>
-    <li class="char-item">
+    <li class="char-item" @click="openCharDetails" :id="props.char.id">
         <div class="char-item__image-wrapper">
             <img :src="props.char.image" alt="avatar" class="char-item__image">
         </div>
         <div class="char-item__info">
-            <div class="char-item__info-column">
+            <div class="char-item__info-row">
                 <h4 class="char-item__info-params-name">Имя:</h4>
-                <h4 class="char-item__info-params-name">Пол:</h4>
-                <h4 class="char-item__info-params-name">Статус:</h4>
-                <h4 class="char-item__info-params-name">Вид:</h4>
-                <h4 class="char-item__info-params-name">Измерение:</h4>
-            </div>
-            <div class="char-item__info-column">
                 <h3 class="char-item__info-params-value name">{{ props.char.name }}</h3>
+            </div>
+            <div class="char-item__info-row">
+                <h4 class="char-item__info-params-name">Пол:</h4>
                 <div class="char-item__info-params-value">{{ props.char.gender }}</div>
+            </div>
+            <div class="char-item__info-row">
+                <h4 class="char-item__info-params-name">Статус:</h4>
                 <div class="char-item__info-params-value">{{ props.char.status }}</div>
+            </div>
+            <div class="char-item__info-row">
+                <h4 class="char-item__info-params-name">Вид:</h4>
                 <div class="char-item__info-params-value">{{ props.char.species }}</div>
+            </div>
+            <div class="char-item__info-row">
+                <h4 class="char-item__info-params-name">Измерение:</h4>
                 <div class="char-item__info-params-value">{{ props.char.location.name }}</div>
             </div>
         </div>
@@ -31,20 +48,20 @@ console.log(props.char);
 
 <style>
 .char-item {
-    position: relative;
+    padding: 0 10px 10px 0;
     z-index: 2;
-    background-color: aliceblue;
+    background-color: #fff5fd;
     display: flex;
-    gap: 50px;
+    gap: 20px;
     border-radius: 10px;
     color: #333;
     text-align: left;
 }
 .char-item__image-wrapper {
     padding: 5px;
-    min-width: 150px;
-    width: 150px;
-    height: 150px;
+    min-width: 130px;
+    width: 130px;
+    height: 130px;
     border-radius: 10px;
     box-shadow: 0 0 4px -2px;
     transform: rotate(-10deg);
@@ -55,19 +72,16 @@ console.log(props.char);
     border-radius: 10px;
 }
 .char-item__info {
+    padding-top: 10px;
+}
+.char-item__info-row {
     display: flex;
     align-items: baseline;
-    gap: 20px;
-    margin: 10px 0;
 }
-.char-item__info-params-name:not(:last-child),
-.char-item__info-params-value:not(:last-child) {
-    margin-bottom: 10px;
+.char-item__info-row:not(:last-child) {
+    margin-bottom: 5px;
 }
-/* .char-item__info-row {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin: 10px 0;
-} */
+.char-item__info-params-name {
+    min-width: 100px;
+}
 </style>
