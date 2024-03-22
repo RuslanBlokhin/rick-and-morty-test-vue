@@ -27,11 +27,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   background-color: #333;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
 }
 
 h1 {
@@ -90,7 +86,7 @@ input {
   border: none;
 }
 
-#app {
+.container {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px 10px;
@@ -99,7 +95,7 @@ input {
 }
 
 @media screen and (min-width: 768px) {
-  #app {
+  .container {
     width: 100%;
     max-width: none;
     min-width: 728px;
@@ -108,7 +104,7 @@ input {
 }
 
 @media screen and (min-width: 1200px) {
-  #app {
+  .container {
     width: 1140px;
     padding: 100px 30px;
   }

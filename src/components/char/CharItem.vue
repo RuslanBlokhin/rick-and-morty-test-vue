@@ -1,19 +1,22 @@
 <script setup>
 import { useStore } from 'vuex';
+
 const store = useStore();
 
 const props = defineProps({
   char: Object,
-})
+});
 
 function openCharDetails(e) {
     const currentID = e.currentTarget.id;
     store.dispatch('getCharDetails', currentID).then(resp => {
         if(resp.error !== null) {
-            alert('Что-то пошло не так...')
+            alert('Что-то пошло не так...');
+        } else {
+            store.commit('SET_CLOSE_SIDEBAR', false);
         }
     });
-}
+};
 </script>
 
 <template>

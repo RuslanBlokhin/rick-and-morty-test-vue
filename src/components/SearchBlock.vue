@@ -35,6 +35,9 @@ function searchChars() {
 
 <template>
   <div class="search-block">
+    <div class="search-block__logo">
+      <img src="../assets/logo.webp" alt="logo" />
+    </div>
     <div class="search-block__wrapper">
       <form class="search-block__form">
         <Input v-model="name" placeholder="Имя персонажа" />
@@ -57,11 +60,14 @@ function searchChars() {
 </template>
 
 <style>
-/* .search-block {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
+.search-block {
+  max-width: 728px;
+  margin: 0 auto;
+}
+.search-block__logo {
+  max-width: 500px;
+  margin: 0 auto;
+}
 .search-block__wrapper {
   padding: 15px;
   margin: 0 auto;
