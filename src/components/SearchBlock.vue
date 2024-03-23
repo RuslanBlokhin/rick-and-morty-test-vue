@@ -8,28 +8,34 @@ import Select from './ui-kit/Select.vue';
 const router = useRouter();
 const store = useStore();
 
+const isCloseSidebar = computed(() => store.getters.isCloseSidebar);
+
 const name = ref('');
 const view = ref('');
-const error = ref(false)
+const error = ref(false);
 const selectedStatus = ref('');
 const selectedGender = ref('');
 const status = ref(['Alive', 'Dead', 'unknown']);
 const gender = ref(['Female', 'Male', 'Genderless', 'unknown']);
 
 function searchChars() {
-  store.dispatch('searchChars', { 
-    name: name.value, 
-    view: view.value, 
-    status: selectedStatus.value, 
-    gender: selectedGender.value 
-  }).then(resp => {
-    if(resp.error === null) {
-      error.value = false;
-      router.push('/chars');
-    } else {
-      error.value = true;
-    }
-  });
+  store.commit('SET_CLOSE_SIDEBAR', true);
+
+  store
+    .dispatch('searchChars', {
+      name: name.value,
+      view: view.value,
+      status: selectedStatus.value,
+      gender: selectedGender.value,
+    })
+    .then(resp => {
+      if (resp.error === null) {
+        error.value = false;
+        router.push('/chars');
+      } else {
+        error.value = true;
+      }
+    });
 }
 </script>
 
@@ -44,12 +50,13 @@ function searchChars() {
         <Select v-model="selectedStatus" :options="status" text="Статус"></Select>
         <Input v-model="view" placeholder="Вид" />
         <Select v-model="selectedGender" :options="gender" text="Пол"></Select>
-        <button 
-          @click="searchChars" 
-          @keyup.enter="searchChars" 
-          class="search-block__button" 
-          text="Поиск">
-            Найти
+        <button
+          @click="searchChars"
+          @keyup.enter="searchChars"
+          class="search-block__button"
+          text="Поиск"
+        >
+          Найти
         </button>
       </form>
     </div>
@@ -82,6 +89,6 @@ function searchChars() {
 }
 .search-block__notfound-message {
   margin-top: 20px;
-  color:rgb(247, 247, 247);
+  color: rgb(247, 247, 247);
 }
 </style>

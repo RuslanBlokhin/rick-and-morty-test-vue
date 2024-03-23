@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex'
-import CharItem from "./CharItem.vue"
+import CharItem from "./CharItem.vue";
 import CharDetails from './CharDetails.vue';
 
-const store = useStore()
+const store = useStore();
 
 const findedChars = computed(() => store.getters.getFindedChars);
 const isCloseSidebar = computed(() => store.getters.isCloseSidebar);
@@ -14,13 +14,12 @@ window.addEventListener('scroll', showMore);
 function showMore() {
   if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
     store.dispatch('getMoreChars').then(resp => {
-      console.log(resp.next === null);
       if(resp.next === null) {
         window.removeEventListener('scroll', showMore);
       };
     });
-  }
-}
+  };
+};
 </script>
 
 <template>

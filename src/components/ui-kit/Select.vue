@@ -15,7 +15,6 @@ defineEmits(['update:modelValue']);
 
 <style>
 .select {
-  width: 100px;
   height: 40px;
   padding: 6px;
   border: none;
