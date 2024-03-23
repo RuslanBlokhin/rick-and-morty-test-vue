@@ -8,11 +8,10 @@ import Select from './ui-kit/Select.vue';
 const router = useRouter();
 const store = useStore();
 
-const isCloseSidebar = computed(() => store.getters.isCloseSidebar);
-
 const name = ref('');
 const view = ref('');
 const error = ref(false);
+const isLoading = ref(false);
 const selectedStatus = ref('');
 const selectedGender = ref('');
 const status = ref(['Alive', 'Dead', 'unknown']);
@@ -20,6 +19,7 @@ const gender = ref(['Female', 'Male', 'Genderless', 'unknown']);
 
 function searchChars() {
   store.commit('SET_CLOSE_SIDEBAR', true);
+  isLoading.value = true;
 
   store
     .dispatch('searchChars', {
@@ -31,6 +31,7 @@ function searchChars() {
     .then(resp => {
       if (resp.error === null) {
         error.value = false;
+        isLoading.value = false;
         router.push('/chars');
       } else {
         error.value = true;
@@ -60,6 +61,7 @@ function searchChars() {
         </button>
       </form>
     </div>
+    <div v-if="isLoading" class="loader"></div>
     <div v-if="error" class="search-block__notfound-message">
       По данному запросу ничего не найдено, попробуйте ввести другие параметры поиска
     </div>
