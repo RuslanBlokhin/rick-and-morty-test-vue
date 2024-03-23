@@ -65,8 +65,12 @@ const underlayClickHandler = e => e.target === e.currentTarget && closeSidebar()
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  min-width: 375px;
   background-color: #000000c0;
   z-index: 5;
+  min-height: -moz-available; /* WebKit-based browsers will ignore this. */
+  min-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  min-height: fill-available;
 }
 .char-details__wrapper {
   display: flex;
@@ -98,6 +102,7 @@ const underlayClickHandler = e => e.target === e.currentTarget && closeSidebar()
     justify-content: space-between;
     flex-direction: column;
     width: 250px;
+    min-width: auto;
     height: 500px;
     background-color: #fff5fd;
     padding: 20px;
