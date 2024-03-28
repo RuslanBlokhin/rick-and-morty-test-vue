@@ -1,6 +1,10 @@
-# ТЗ
-https://rickandmortyapi.com/documentation
+# Тестовое задание с использованием Vue3/Vuex/VueRouter
+npm i
+npm run dev
+npm run build
 
+ТЗ
+API - https://rickandmortyapi.com/documentation
 Должно быть две страницы
 
 на 1 в центре экрана фильтры:
